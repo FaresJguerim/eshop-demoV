@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Button, CheckBox, Img, List, Text } from "components";
-import DesktopLandingOneModiweekcard from "components/Modiweekcard";
-import DesktopLandingOneProductcard from "components/Productcard";
+import Modiweekcard from "components/Modiweekcard";
+import Productcard from "components/Productcard";
 
 const LandingPage: React.FC = () => {
   const ProductcardPropList = [
@@ -189,7 +189,7 @@ const LandingPage: React.FC = () => {
           >
             {ProductcardPropList.map((props, index) => (
               <React.Fragment key={`DesktopLandingOneProductcard${index}`}>
-                <DesktopLandingOneProductcard
+                <Productcard
                   className="flex flex-1 flex-col items-center justify-start w-full"
                   {...props}
                 />
@@ -283,7 +283,7 @@ const LandingPage: React.FC = () => {
           >
             {ModiweekcardPropList.map((props, index) => (
               <React.Fragment key={`DesktopLandingOneModiweekcard${index}`}>
-                <DesktopLandingOneModiweekcard
+                <Modiweekcard
                   className="flex flex-1 flex-col items-center justify-start pb-[7px] w-full"
                   {...props}
                 />
