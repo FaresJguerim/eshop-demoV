@@ -1,4 +1,4 @@
-import Layout from "components/Layout";
+import Layout from "pages/Layout";
 import RegistrationForm from "pages/Registration";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -22,7 +22,7 @@ const ProjectRoutes = () => {
 
           {/* Place the RegistrationForm route within the Layout component */}
           <Route
-            path="/registration/index"
+            path="/registration"
             element={
               <Layout>
                 <RegistrationForm />

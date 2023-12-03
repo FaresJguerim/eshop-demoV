@@ -1,118 +1,89 @@
 import React from "react";
+import { ErrorMessage } from "../../components/ErrorMessage";
 
-import { Button, Img, List, Text } from "components";
+const shapes = { square: "rounded-none" } as const;
+const variants = {
+  outline: {
+    gray_700_01: "border border-gray-700_01 border-solid text-gray-700_01",
+  },
+} as const;
+const sizes = { xs: "p-3" } as const;
 
-type Header1Props = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
+export type InputProps = Omit<
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
+  "size" | "prefix" | "type" | "onChange"
 > &
-  Partial<{}>;
+  Partial<{
+    wrapClassName: string;
+    className: string;
+    name: string;
+    placeholder: string;
+    type: string;
+    errors: string[];
+    label: string;
+    prefix: React.ReactNode;
+    suffix: React.ReactNode;
+    onChange: Function;
+    shape: keyof typeof shapes;
+    variant: keyof typeof variants;
+    size: keyof typeof sizes;
+    color: string;
+  }>;
 
-const Input: React.FC<Header1Props> = (props) => {
-  return (
-    <>
-      <header className={props.className}>
-        <div className="flex flex-col gap-4 items-center justify-center mb-[18px] w-full">
-          <div className="bg-gray-700 flex flex-col items-center justify-end p-[5px] w-full">
-            <Text
-              className="mt-[3px] text-center text-white-A700 text-xs tracking-[0.80px]"
-              size="txtMontserratRomanRegular18"
-            >
-              Enjoy Free Shipping On All Orders
-            </Text>
-          </div>
-          <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-[85%] md:w-full">
-            <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-[77%] md:w-full">
-              <div className="flex flex-col gap-2 h-[46px] md:h-auto items-center justify-center w-[184px]">
-                <div className="flex flex-row gap-px items-end justify-center w-auto">
-                  <Text
-                    className="md:text-3xl sm:text-[28px] text-[32px] text-center text-gray-800 tracking-[3.20px] w-auto"
-                    size="txtLeagueSpartanBold32"
-                  >
-                    modimal
-                  </Text>
-                  <Img
-                    className="h-2.5 w-2.5"
-                    src="images/img_settings_gray_600_10x10.svg"
-                    alt="settings"
-                  />
-                </div>
-                <Text
-                  className="text-[10px] text-center text-gray-800 tracking-[1.00px] w-auto"
-                  size="txtLeagueSpartanRegular10"
-                >
-                  women clothing
-                </Text>
-              </div>
-              <div className="flex flex-row flex-wrap gap-6 items-center justify-center max-w-[648px] w-full">
-                <Button
-                  className="bg-transparent capitalize cursor-pointer font-montserrat min-w-[104px] text-center text-gray-800 text-lg"
-                  size="xs"
-                >
-                  Collection
-                </Button>
-                <Button
-                  className="bg-transparent capitalize cursor-pointer font-montserrat min-w-[104px] text-center text-gray-800 text-lg"
-                  size="xs"
-                >
-                  New In
-                </Button>
-                <Button
-                  className="bg-transparent capitalize cursor-pointer font-montserrat min-w-[104px] text-center text-gray-800 text-lg"
-                  size="xs"
-                >
-                  Modiweek
-                </Button>
-                <Button
-                  className="bg-transparent capitalize cursor-pointer font-montserrat min-w-[104px] text-center text-gray-800 text-lg"
-                  size="xs"
-                >
-                  Plus Size
-                </Button>
-                <Button
-                  className="bg-transparent capitalize cursor-pointer font-montserrat min-w-[128px] text-center text-gray-800 text-lg"
-                  size="xs"
-                >
-                  Sustainability
-                </Button>
-              </div>
-            </div>
-            <List
-              className="sm:flex-col flex-row gap-6 grid grid-cols-4 h-8 justify-center w-[184px]"
-              orientation="horizontal"
-            >
-              <div className="flex flex-col h-6 items-center justify-start w-full">
-                <Img className="h-6 w-6" src="defaultNoData.png" alt="search" />
-              </div>
-              <div className="flex flex-col items-start justify-start w-full">
-                <Img
-                  className="h-6 w-6"
-                  src="defaultNoData.png"
-                  alt="personFour"
-                />
-              </div>
-              <div className="flex flex-col h-6 items-center justify-start w-full">
-                <Img
-                  className="h-6 w-6"
-                  src="defaultNoData.png"
-                  alt="favorite"
-                />
-              </div>
-              <div className="flex flex-col items-start justify-center w-full">
-                <Img
-                  className="h-6 w-6"
-                  src="defaultNoData.png"
-                  alt="shoppingbag"
-                />
-              </div>
-            </List>
-          </div>
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      wrapClassName = "",
+      className = "",
+      name = "",
+      placeholder = "",
+      type = "text",
+      children,
+      errors = [],
+      label = "",
+      prefix,
+      suffix,
+      onChange,
+      shape = "square",
+      size = "xs",
+      variant = "outline",
+      color = "gray_700_01",
+      ...restProps
+    },
+    ref,
+  ) => {
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+      if (onChange) onChange(e?.target?.value);
+    };
+
+    return (
+      <>
+        <div
+          className={`${wrapClassName} 
+              ${(shape && shapes[shape]) || ""} 
+              ${(variant && variants[variant]?.[color]) || ""} 
+              ${(size && sizes[size]) || ""}`}
+        >
+          {!!label && label}
+          {!!prefix && prefix}
+          <input
+            ref={ref}
+            className={`${className} bg-transparent border-0`}
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            onChange={handleChange}
+            {...restProps}
+          />
+          {!!suffix && suffix}
         </div>
-      </header>
-    </>
-  );
-};
+        {!!errors && <ErrorMessage errors={errors} />}
+      </>
+    );
+  },
+);
 
-Input.defaultProps = {};
-
-export default Input;
+export { Input };
