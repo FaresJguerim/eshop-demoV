@@ -1,7 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Confirmation from "components/Confirmation";
 
-import { Button, Input, Img,  List, Text } from "components";
+import { Button, CheckBox, Img, Input, List, Text } from "components";
+import { registerUser } from "services/registrationService";
+
 const DesktopRegisterOnePage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegistration = () => {
+    const formData = {
+      firstName: firstName,
+      lastName: lastName, 
+      email: email,
+      password: password,
+    };
+  
+    const registrationSuccess = registerUser(formData);
+  
+    if (registrationSuccess) {
+      console.log(formData);
+      //navigate('/confirmation');
+    } else {
+      console.log('Please fill out all fields');
+    }
+  };
+  const handleChange = (e) => {
+    // Check if 'e' or 'e.target' is defined before destructuring 'name' and 'value'
+      console.log(e.target);
+    if (e && e.target) {
+      const { name, value } = e.target;
+      // Assuming 'name' attributes are set in the input fields
+      if (name === 'inputorginal') {
+        setFirstName(value);
+      } else if (name === 'inputorginal_One') {
+        setLastName(value);
+      } else if (name === 'inputorginal_Two') {
+        setEmail(value);
+      } else if (name === 'inputorginal_Three') {
+        setPassword(value);
+      }
+    }
+  };
+  
+
   return (
     <>
       <div className="bg-white-A700 flex flex-col font-montserrat items-center justify-start mx-auto w-full">
@@ -23,6 +70,7 @@ const DesktopRegisterOnePage: React.FC = () => {
                 <div className="flex flex-col gap-2 items-start justify-start w-[392px] sm:w-full">
                   <Input
                     name="inputorginal"
+                    onChange={handleChange}
                     placeholder="first name"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
@@ -30,6 +78,7 @@ const DesktopRegisterOnePage: React.FC = () => {
                   ></Input>
                   <Input
                     name="inputorginal_One"
+                    onChange={e=>handleChange(e)}
                     placeholder="last name"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
@@ -37,6 +86,7 @@ const DesktopRegisterOnePage: React.FC = () => {
                   ></Input>
                   <Input
                     name="inputorginal_Two"
+                    onChange={handleChange}
                     placeholder="email"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
@@ -55,14 +105,21 @@ const DesktopRegisterOnePage: React.FC = () => {
                     color="gray_700_01"
                     size="sm"
                     variant="outline"
-                  >
-                    <div className="capitalize text-left text-xs">password</div>
-                  </Button>
+                  ></Button>
+                  <Input
+                    name="inputorginal_Two"
+                    onChange={handleChange}
+                    placeholder="password"
+                    className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
+                    wrapClassName="w-full"
+                    type="password"
+                  ></Input>{" "}
                 </div>
                 <Button
-                  className="capitalize cursor-pointer h-10 mt-4 text-center text-sm w-[392px]"
+                  onClick={handleRegistration}
+                  className="capitalize cursor-pointer h-10 mt-4 text-center text-sm w-[392px] "
                   shape="square"
-                  color="gray_700"
+                  color="#5a6d57"
                   size="sm"
                   variant="fill"
                 >
@@ -75,12 +132,12 @@ const DesktopRegisterOnePage: React.FC = () => {
                   >
                     Already have an account?{" "}
                   </Text>
-                  <Button
-                    className="bg-transparent capitalize cursor-pointer h-10 text-center text-gray-600 text-sm w-[98px]"
-                    size="sm"
+                  <a
+                    href="/Login"
+                    className="bg-transparent capitalize cursor-pointer h-10 text-center text-gray-600 text-sm w-[98px] inline-block"
                   >
-                    log in
-                  </Button>
+                    Log In
+                  </a>
                 </div>
                 <Text
                   className="capitalize h-[15px] ml-44 md:ml-[0] mt-[19px] text-black-900 text-xs"
@@ -97,7 +154,7 @@ const DesktopRegisterOnePage: React.FC = () => {
                   >
                     <Img
                       className="h-5 w-4"
-                      src="images/img_user.svg"
+                      src="images/img_apple.svg"
                       alt="user"
                     />
                   </div>

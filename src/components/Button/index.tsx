@@ -5,6 +5,7 @@ const variants = {
   outline: {
     blue_gray_100:
       "border border-blue_gray-100 border-solid text-blue_gray-100",
+      customColor: "bg-#5a6d57 text-white"
   },
   fill: { white_A700: "bg-white-A700 text-black-900" },
 } as const;

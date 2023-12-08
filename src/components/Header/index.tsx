@@ -76,7 +76,7 @@ const Header = () => {
                 alt="search"
               />
             </div>
-            <Link to="/registration/index">
+            <Link to="/registration">
               <div className="flex flex-col items-start justify-start w-full">
                 <img
                   className="h-6 w-6"

@@ -1,4 +1,6 @@
+import Confirmation from "components/Confirmation";
 import Layout from "pages/Layout";
+import DesktopLoginThreePage from "pages/Login";
 import RegistrationForm from "pages/Registration";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,26 +11,40 @@ const ProjectRoutes = () => {
     <React.Suspense fallback={<>Loading...</>}>
       <Router>
         <Routes>
-          {/* Wrap the routes you want inside the Layout */}
           <Route
             path="/"
             element={
               <Layout>
-                {/* The LandingPage component should be a child of the Layout */}
                 <LandingPage />
               </Layout>
             }
           />
 
-          {/* Place the RegistrationForm route within the Layout component */}
           <Route
             path="/registration"
             element={
               <Layout>
                 <RegistrationForm />
               </Layout>
+              
             }
           />
+          <Route
+            path="/Login"
+            element={
+              <Layout>
+                <DesktopLoginThreePage />
+              </Layout>
+           }
+           />
+           <Route
+            path="/confirmation"
+            element={
+              <Layout>
+                <Confirmation />
+              </Layout>
+           }
+           />
         </Routes>
       </Router>
     </React.Suspense>
