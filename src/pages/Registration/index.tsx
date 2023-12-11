@@ -1,54 +1,36 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Button, CheckBox, Img, Input, List, Text } from "components";
 import Confirmation from "components/Confirmation";
 
-import { Button, CheckBox, Img, Input, List, Text } from "components";
-import { registerUser } from "services/registrationService";
-
 const DesktopRegisterOnePage: React.FC = () => {
-  const navigate = useNavigate();
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [userEmail, setUserEmail] = useState(""); // Define userEmail state
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleRegistration = () => {
-    const formData = {
-      firstName: firstName,
-      lastName: lastName, 
-      email: email,
-      password: password,
-    };
-  
-    const registrationSuccess = registerUser(formData);
-  
-    if (registrationSuccess) {
-      console.log(formData);
-      //navigate('/confirmation');
-    } else {
-      console.log('Please fill out all fields');
-    }
+  const onSubmit = (data) => {
+    // Simulate a successful registration for demonstration purposes
+    // Replace this with your actual registration logic
+    console.log(data); // Data from the form
+
+    // Set isRegistered to true to trigger the confirmation pop-up
+    setIsRegistered(true);
   };
-  const handleChange = (e) => {
-    // Check if 'e' or 'e.target' is defined before destructuring 'name' and 'value'
-      console.log(e.target);
-    if (e && e.target) {
-      const { name, value } = e.target;
-      // Assuming 'name' attributes are set in the input fields
-      if (name === 'inputorginal') {
-        setFirstName(value);
-      } else if (name === 'inputorginal_One') {
-        setLastName(value);
-      } else if (name === 'inputorginal_Two') {
-        setEmail(value);
-      } else if (name === 'inputorginal_Three') {
-        setPassword(value);
-      }
-    }
+  const handleRegistration = (data) => {
+    // Perform registration logic...
+    // After successful registration, set userEmail
+    setUserEmail(data.Email);
+    setIsRegistered(true);
   };
-  
 
+  const closeConfirmation = () => {
+    setIsRegistered(false); // Close the confirmation pop-up
+  };
   return (
     <>
       <div className="bg-white-A700 flex flex-col font-montserrat items-center justify-start mx-auto w-full">
@@ -67,64 +49,79 @@ const DesktopRegisterOnePage: React.FC = () => {
                 Create Account
               </Text>
               <div className="flex flex-col items-start justify-start w-full">
-                <div className="flex flex-col gap-2 items-start justify-start w-[392px] sm:w-full">
+                {/* Confirmation Popup */}
+                {isRegistered && (
+                  <div className="confirmation">
+                    <h2>Registration Successful!</h2>
+                    <p>Thank you for registering.</p>
+                    <Button onClick={closeConfirmation}>Close</Button>
+                  </div>
+                )}
+                <form
+                  onSubmit={handleSubmit(handleRegistration)}
+                  className="flex flex-col gap-2 items-start justify-start w-[392px] sm:w-full"
+                >
                   <Input
-                    name="inputorginal"
-                    onChange={handleChange}
+                    name="FirstName"
                     placeholder="first name"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
                     type="text"
-                  ></Input>
+                    {...register("LastName", { required: true })}
+                  />
+                  {errors.FiestName?.type === "required" && (
+                    <span>First Name is required</span>
+                  )}
+
                   <Input
-                    name="inputorginal_One"
-                    onChange={e=>handleChange(e)}
+                    name="LastName"
                     placeholder="last name"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
                     type="text"
-                  ></Input>
+                    {...register("LastName", { required: true })}
+                  />
+                  {errors.LastName?.type === "required" && (
+                    <span>Last Name is required</span>
+                  )}
                   <Input
                     name="inputorginal_Two"
-                    onChange={handleChange}
                     placeholder="email"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
                     type="email"
+                    {...register("Email")}
                   ></Input>
-                  <Button
-                    className="cursor-pointer flex h-10 items-center justify-center w-full"
-                    rightIcon={
-                      <Img
-                        className="h-4 ml-[35px]"
-                        src="images/img_visibilityoff.svg"
-                        alt="visibility_off"
-                      />
-                    }
-                    shape="square"
-                    color="gray_700_01"
-                    size="sm"
-                    variant="outline"
-                  ></Button>
                   <Input
                     name="inputorginal_Two"
-                    onChange={handleChange}
                     placeholder="password"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
-                    wrapClassName="w-full"
                     type="password"
-                  ></Input>{" "}
-                </div>
-                <Button
-                  onClick={handleRegistration}
-                  className="capitalize cursor-pointer h-10 mt-4 text-center text-sm w-[392px] "
-                  shape="square"
-                  color="#5a6d57"
-                  size="sm"
-                  variant="fill"
-                >
-                  Register Now
-                </Button>
+                    {...register("Password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters long",
+                      },
+                    })}
+                  />
+
+                  <Button
+                    className="capitalize cursor-pointer h-10 mt-4 text-center text-sm w-[392px] "
+                    shape="square"
+                    color="#5a6d57"
+                    size="sm"
+                    variant="fill"
+                    type="submit"
+                  >
+                    Register Now
+                  </Button>
+                </form>
+                {isRegistered && (
+        <div className="overlay">
+        <Confirmation onClose={closeConfirmation} userEmail={userEmail} />
+      </div>
+    )}
                 <div className="flex flex-row items-center justify-center md:ml-[0] ml-[53px] mt-2 w-[285px]">
                   <Text
                     className="capitalize text-black-900 text-sm w-auto"

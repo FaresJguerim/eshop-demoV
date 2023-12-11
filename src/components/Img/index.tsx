@@ -21,9 +21,10 @@ const Img: React.FC<React.PropsWithChildren<ImgProps>> = ({
       className={className}
       src={src}
       alt={alt}
-      {...restProps}
       loading={"lazy"}
+      {...restProps} // Spread restProps here
     />
   );
 };
+
 export { Img };

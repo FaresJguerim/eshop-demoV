@@ -1,10 +1,13 @@
-import Confirmation from "components/Confirmation";
-import Layout from "pages/Layout";
-import DesktopLoginThreePage from "pages/Login";
-import RegistrationForm from "pages/Registration";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "pages/Layout";
+import Favourites from "pages/Favourites";
+import { FavoritesProvider } from "services/FavoritesContext";
+import Productcard from "components/Productcard";
+
 const LandingPage = React.lazy(() => import("pages/LandingPage"));
+const DesktopLoginThreePage = React.lazy(() => import("pages/Login"));
+const RegistrationForm = React.lazy(() => import("pages/Registration"));
 
 const ProjectRoutes = () => {
   return (
@@ -26,25 +29,51 @@ const ProjectRoutes = () => {
               <Layout>
                 <RegistrationForm />
               </Layout>
-              
             }
           />
+
           <Route
             path="/Login"
             element={
               <Layout>
                 <DesktopLoginThreePage />
               </Layout>
-           }
-           />
-           <Route
-            path="/confirmation"
+            }
+          />
+
+          {/* Integrate Productcard and FavoritesProvider */}
+          <Route
+            path="/Productcard" // Define the path for Productcard
+            element={
+              <FavoritesProvider>
+                <Layout>
+                  <Productcard />
+                </Layout>
+              </FavoritesProvider>
+            }
+          />
+
+          <Route
+            path="/Favourite"
             element={
               <Layout>
-                <Confirmation />
+                <Favourites />
               </Layout>
-           }
-           />
+            }
+          />
+
+          <Route
+          
+            path="/LandingPage"
+            element={
+              <FavoritesProvider>
+
+              <Layout>
+                <LandingPage />
+              </Layout>
+              </FavoritesProvider>
+            }
+          />
         </Routes>
       </Router>
     </React.Suspense>

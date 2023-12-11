@@ -18,12 +18,15 @@ const Header = () => {
           <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-[77%] md:w-full">
             <div className="flex flex-col gap-2 h-[46px] md:h-auto items-center justify-center w-[184px]">
               <div className="flex flex-row gap-px items-end justify-center w-auto">
-                <Text
-                  className="md:text-3xl sm:text-[28px] text-[32px] text-center text-gray-800 tracking-[3.20px] w-auto"
-                  size="txtLeagueSpartanBold32"
-                >
-                  modimal
-                </Text>
+                <Link to="LandingPage/">
+                  
+                  <Text
+                    className="md:text-3xl sm:text-[28px] text-[32px] text-center text-gray-800 tracking-[3.20px] w-auto"
+                    size="txtLeagueSpartanBold32"
+                  >
+                    modimal
+                  </Text>
+                </Link>
               </div>
               <Text
                 className="text-[10px] text-center text-gray-800 tracking-[1.00px] w-auto"
@@ -86,11 +89,13 @@ const Header = () => {
               </div>
             </Link>
             <div className="flex flex-col h-6 items-center justify-start w-full">
-              <Img
-                className="h-6 w-6"
-                src="images/img_favorite.svg"
-                alt="favorite"
-              />
+              <Link to="/Favourite">
+                <img
+                  className="h-6 w-6"
+                  src="images/img_favorite.svg"
+                  alt="favorite"
+                />
+              </Link>
             </div>
             <div className="flex flex-col items-start justify-center w-full">
               <Img
