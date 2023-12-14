@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, CheckBox, Img, Input, List, Text } from "components";
 import Confirmation from "components/Confirmation";
+import { inherits } from "util";
 
 const DesktopRegisterOnePage: React.FC = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [userEmail, setUserEmail] = useState(""); // Define userEmail state
-
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -31,6 +32,10 @@ const DesktopRegisterOnePage: React.FC = () => {
   const closeConfirmation = () => {
     setIsRegistered(false); // Close the confirmation pop-up
   };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <div className="bg-white-A700 flex flex-col font-montserrat items-center justify-start mx-auto w-full">
@@ -67,9 +72,9 @@ const DesktopRegisterOnePage: React.FC = () => {
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
                     type="text"
-                    {...register("LastName", { required: true })}
+                    {...register("FirstName", { required: true })}
                   />
-                  {errors.FiestName?.type === "required" && (
+                  {errors.FirstName?.type === "required" && (
                     <span>First Name is required</span>
                   )}
 
@@ -85,43 +90,71 @@ const DesktopRegisterOnePage: React.FC = () => {
                     <span>Last Name is required</span>
                   )}
                   <Input
-                    name="inputorginal_Two"
+                    name="Email"
                     placeholder="email"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
                     type="email"
                     {...register("Email")}
-                  ></Input>
-                  <Input
-                    name="inputorginal_Two"
-                    placeholder="password"
-                    className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
-                    type="password"
-                    {...register("Password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 8,
-                        message: "Password must be at least 8 characters long",
-                      },
-                    })}
                   />
 
+                  <div style={{ width: "inherits", position: "relative" }}>
+                    <Input
+                      name="Password"
+                      placeholder="password"
+                      className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full relative"
+                      type={showPassword ? "text" : "password"}
+                      wrapClassName="w-full"
+                      style={{ width: "100%" }} // Add this line to ensure the width matches
+                      {...register("Password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 8,
+                          message:
+                            "Password must be at least 8 characters long",
+                        },
+                      })}
+                    />
+                    <Button
+                      className="absolute top-0 right-0 cursor-pointer h-10 flex items-center justify-center"
+                      onClick={togglePasswordVisibility}
+                      shape="square"
+                      color="gray_700_01"
+                      size="sm"
+                      variant="outline"
+                    >
+                      <Img
+                        className="h-4 ml-[35px]"
+                        src={
+                          showPassword
+                            ? "/images/img_visibilityon.svg"
+                            : "/images/img_visibilityoff.svg"
+                        }
+                        alt={showPassword ? "visibility_on" : "visibility_off"}
+                      />
+                    </Button>
+                  </div>
+
                   <Button
-                    className="capitalize cursor-pointer h-10 mt-4 text-center text-sm w-[392px] "
+                    type="submit"
+                    className="capitalize cursor-pointer h-10 ml-0.5 md:ml-[0] mt-7 text-center text-sm w-[392px] bg-gray-700"
                     shape="square"
-                    color="#5a6d57"
+                    color="gray_700"
                     size="sm"
                     variant="fill"
-                    type="submit"
                   >
                     Register Now
+                    {isRegistered && (
+                      <div className="overlay">
+                        <Confirmation
+                          onClose={closeConfirmation}
+                          userEmail={userEmail}
+                        />
+                      </div>
+                    )}
                   </Button>
                 </form>
-                {isRegistered && (
-        <div className="overlay">
-        <Confirmation onClose={closeConfirmation} userEmail={userEmail} />
-      </div>
-    )}
+
                 <div className="flex flex-row items-center justify-center md:ml-[0] ml-[53px] mt-2 w-[285px]">
                   <Text
                     className="capitalize text-black-900 text-sm w-auto"

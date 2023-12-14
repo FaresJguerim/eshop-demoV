@@ -9,13 +9,13 @@ interface ConfirmationProps {
 }
 
 const Confirmation: React.FC<ConfirmationProps> = ({ userEmail, onClose }) => {
-  const capitalizedEmail = userEmail.charAt(0).toUpperCase() + userEmail.slice(1);
+  const capitalizedEmail =
+    userEmail.charAt(0).toUpperCase() + userEmail.slice(1);
 
   return (
     <>
       <div
         className="bg-cover bg-no-repeat flex flex-col font-montserrat h-[1024px] items-center justify-start mx-auto shadow-bs1 w-full"
-        style={{ backgroundImage: "url('images/img_desktopregistertwo.png')" }}
       >
         <div className="bg-black-900_7a_01 flex flex-col items-center justify-center p-[268px] md:px-10 sm:px-5 w-full">
           <div className="bg-white-A700 flex flex-col gap-11 justify-start my-[21px] p-6 md:px-5 w-[95%] md:w-full">
@@ -35,7 +35,6 @@ const Confirmation: React.FC<ConfirmationProps> = ({ userEmail, onClose }) => {
                 expire in 24 hours.
               </Text>
               <a
-                href="#"
                 className="capitalize leading-[180.00%] text-center text-lg w-full text-red-600"
               >
                 Click here if you did not receive an email or would like to

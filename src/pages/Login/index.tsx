@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { Button, CheckBox, Img, Input, List, Text } from "components";
+const Login = () => {
+  const { handleSubmit, register } = useForm();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
-const DesktopLoginThreePage: React.FC = () => {
+  const handleLogin = (data) => {
+    // Perform login authentication (can be an API call or any authentication logic)
+    // For demonstration, just setting isLoggedIn to true if email is provided
+    if (data.Email) {
+      setUserEmail(data.Email);
+      setIsLoggedIn(true);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserEmail("");
+  };
+
   return (
     <>
       <div className="bg-white-A700 flex flex-col font-montserrat items-center justify-start mx-auto w-full">
@@ -20,31 +38,25 @@ const DesktopLoginThreePage: React.FC = () => {
               >
                 Log in
               </Text>
+              <form>
               <div className="flex flex-col items-start justify-start w-full">
                 <div className="flex flex-col gap-2 items-start justify-start w-[392px] sm:w-full">
                   <Input
-                    name="inputorginal"
+                    name="Email"
                     placeholder="Email"
                     className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
                     wrapClassName="w-full"
                     type="email"
                   ></Input>
-                  <Button
-                    className="cursor-pointer flex h-10 items-center justify-center w-full"
-                    rightIcon={
-                      <Img
-                        className="h-4 ml-[35px]"
-                        src="images/img_visibilityoff.svg"
-                        alt="visibility_off"
-                      />
-                    }
-                    shape="square"
-                    color="gray_700_01"
-                    size="sm"
-                    variant="outline"
-                  >
-                    <div className="capitalize text-left text-xs">Password</div>
-                  </Button>
+
+                  <Input
+                    name="Password"
+                    placeholder="Password"
+                    className="capitalize md:h-auto p-0 placeholder:text-gray-700_01 sm:h-auto text-left text-xs w-full"
+                    wrapClassName="w-full"
+                    type="password"
+                  ></Input>
+                  
                 </div>
                 <a
                   href="javascript:"
@@ -55,7 +67,7 @@ const DesktopLoginThreePage: React.FC = () => {
                   </Text>
                 </a>
                 <Button
-                  className="capitalize cursor-pointer h-10 ml-0.5 md:ml-[0] mt-7 text-center text-sm w-[392px]"
+                  className="capitalize cursor-pointer h-10 ml-0.5 md:ml-[0] mt-7 text-center text-sm w-[392px] bg-gray-700"
                   shape="square"
                   color="gray_700"
                   size="sm"
@@ -98,8 +110,11 @@ const DesktopLoginThreePage: React.FC = () => {
                     >
                       <Img src="images/img_facebook.svg" alt="facebook" />
                     </Button>
+                    </div>
+
                   </div>
                 </div>
+                </form>
                 <Text
                   className="capitalize md:ml-[0] ml-[47px] mt-[27px] text-base text-black-900 text-center"
                   size="txtMontserratSemiBold32"
@@ -115,9 +130,8 @@ const DesktopLoginThreePage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };
 
-export default DesktopLoginThreePage;
+export default Login;
